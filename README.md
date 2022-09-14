@@ -68,7 +68,7 @@ These four files are sample-specific.
 
 Geneinfo.txt is the table of information on each gene. It includes genes' locations, names, and ids. Usually, we use GRCh38 as the geneinfo file, and you can directly download the GRCh38 geneinfo file from my GitHub.
 
-Geneinfo 
+![Geneinfo ](https://github.com/DZBohan/Sequenza_Pipeline/blob/main/images/geneinfo.png?raw=true)
 
 Sometimes the chromosome format ("chrN" or "N") of the geneinfo is different from the bam files, but you do not need to modify the geneinfo file since I have a chromosome format judgment step in the CNTools R script.
 
@@ -78,7 +78,7 @@ If you want to use your geneinfo file, you need to remove the duplicate data and
 
 Using this pipeline, you are required to create a bamIdsUniq.txt file. The file should have two columns. The first column is all the tumor bam file names, and the second column is all the normal bam file names. Use commas to separate two columns. Here is an example of what the file looks like.
 
-BamIdsUniq
+![BamIdsUniq](https://github.com/DZBohan/Sequenza_Pipeline/blob/main/images/bamidsuniq.png?raw=true)
 
 ## 3. Environment Setting
 
@@ -178,7 +178,7 @@ It usually takes 6-8 hours to run the pipeline once, meaning if you set the arra
 
 After running the main step, you will get a set of directories, which are the same number as the samples, inside the output directory you set, and the name of each directory is supposed to be the same as the tumor bam's filename.
 
-Output1
+![Output1](https://github.com/DZBohan/Sequenza_Pipeline/blob/main/images/output1.png?raw=true)
 
 Inside each directory, there should be 12 files (eight `.pdf` files, five `.txt` files, and two .RData files) and a directory called cntools_result.
 
