@@ -2,7 +2,49 @@
 
 #### Bohan Zhang September 13th
 
-## 1. Introduction of the Pipeline
+## Index
+
+- [1. Introduction of the Pipeline](#1)
+
+	- [1.1 Preparation step](#1.1)
+
+	- [1.2 CNV analysis step](#1.2)
+
+	- [1.3 Gene level CNV analysis](#1.3)
+
+- [2. Files Preparation](#2)
+
+	- [2.1 Project level files](#2.1)
+
+	- [2.2 Sample level files](#2.2)
+
+	- [2.3 Geneinfo.txt](#2.3)
+
+	- [2.4 BamIdsUniq.txt](#2.4)
+
+- [3. Environment Setting](#3)
+
+	- [3.1 Installation of sequenza-utils](#3.1)
+
+	- [3.2 R environment setting](#3.2)
+
+	- [3.3 HPC modules loading](#3.3)
+
+- [4. Introduction of Scripts](#4)
+
+	- [4.1 Preparation step](#4.1)
+
+	- [4.2 Main step](#4.2)
+
+- [5. Introduction of Results](#5)
+
+	- [5.1 CNV plots](#5.1)
+
+	- [5.2 Segment level CNV table](#5.2)
+
+	- [5.3 Gene level CNV table](#5.3)
+
+## <h2 id="1">1. Introduction of the Pipeline</h2>
 
 The pipeline uses three tools and two R packages.
 
@@ -18,7 +60,7 @@ The pipeline is theoretically divided into three steps, the preparation step, th
 
 Now, I am going to have a brief introduction to the three steps first.
 
-### 1.1 Preparation step
+### <h2 id="1.1">1.1 Preparation step</h2>
 
 Here is a flowchart of the preparation step. The wave shape stands for files, and the rectangle stands for tools.
 
@@ -26,7 +68,7 @@ Here is a flowchart of the preparation step. The wave shape stands for files, an
 
 This step aims to convert the reference file into a GC wiggle track file, which is needed in the following step, by using a tool called `sequenza-utils`.
 
-### 1.2 CNV analysis step
+### <h2 id="1.2">1.2 CNV analysis step</h2>
 
 Here is also a flowchart of the CNV analysis step.
 
@@ -40,13 +82,13 @@ Before the `Sequenza` analysis, you need to process your bams and wiggle track f
 
 Sequenza analysis is processed in R. The results tables and plots will be introduced in chapter 6.
 
-### 1.3 Gene level CNV analysis
+### <h2 id="1.3">1.3 Gene level CNV analysis</h2>
 
 Sequenza provides the CNV analysis on the segment level. However, if you want to know the CNV of a specific gene, you need to introduce another tool called `CNTools`. With the help of genomic information, CNTools can convert the output table of Sequenza pipeline from the segment level to the gene level.
 
-## 2. Files Preparation
+## <h2 id="2">2. Files Preparation</h2>
 
-### 2.1 Project level files
+### <h2 id="2.1">2.1 Project level files</h2>
 
 These six files are the same among different samples in one project.
 
@@ -55,7 +97,7 @@ These six files are the same among different samples in one project.
 * bamIdsUniq.txt (need to be generated yourself)
 * geneinfo.txt (can be downloaded)
 
-### 2.2 Sample level files
+### <h2 id="2.2">2.2 Sample level files</h2>
 
 These four files are sample-specific.
 
@@ -64,7 +106,7 @@ These four files are sample-specific.
 * normal.cram or bam (exist)
 * normal.crai or bai (along with normal.carm or bam)
 
-### 2.3 Geneinfo.txt
+### <h2 id="2.3">2.3 Geneinfo.txt</h2>
 
 Geneinfo.txt is the table of information on each gene. It includes genes' locations, names, and ids. Usually, we use GRCh38 as the geneinfo file, and you can directly download the GRCh38 geneinfo file from my GitHub.
 
@@ -74,15 +116,15 @@ Sometimes the chromosome format ("chrN" or "N") of the geneinfo is different fro
 
 If you want to use your geneinfo file, you need to remove the duplicate data and data, not on chromosomes 1-22 or X and Y.
 
-### 2.4 BamIdsUniq.txt
+### <h2 id="2.4">2.4 BamIdsUniq.txt</h2>
 
 Using this pipeline, you are required to create a bamIdsUniq.txt file. The file should have two columns. The first column is all the tumor bam file names, and the second column is all the normal bam file names. Use commas to separate two columns. Here is an example of what the file looks like.
 
 ![BamIdsUniq](https://github.com/DZBohan/Sequenza_Pipeline/blob/main/images/bamidsuniq.png?raw=true)
 
-## 3. Environment Setting
+## <h2 id="3">3. Environment Setting</h2>
 
-### 3.1 Installation of sequenza-utils
+### <h2 id="3.1">3.1 Installation of sequenza-utils</h2>
 
 Use this command to install `sequenza-utils` tool. You also need Python for the installation.
 
@@ -90,7 +132,7 @@ Use this command to install `sequenza-utils` tool. You also need Python for the 
 pip install sequenza-utils
 ```
 
-### 3.2 R environment setting
+### <h2 id="3.2">3.2 R environment setting</h2>
 
 In this pipeline, I used R with version 4.1.2. You must install two packages, Sequenza and CNTools, in the r/4.1.2.
 
@@ -106,7 +148,7 @@ install.packages("BiocManager")
 BiocManager::install("CNTools")
 ```
 
-### 3.3 HPC module loading
+### <h2 id="3.3">3.3 HPC module loading</h2>
 
 In this pipeline, I load seven modules on the HPC. They are available on the USC CARC, so if you are using another HPC, please check whether these modules are available.
 
@@ -120,11 +162,11 @@ In this pipeline, I load seven modules on the HPC. They are available on the USC
 
 You don't need to load the modules yourself since I have written them inside the scripts. If some of the modules are unavailable on the HPC you are using, try installing the programs yourself.
 
-## 4. Introduction of Scripts
+## <h2 id="4">4. Introduction of Scripts</h2>
 
 This Sequenza CNV analysis pipeline includes two Slurm scripts, sequenza_prepare.slurm and sequenza.slurm. Both scripts have config files, config_sequenza.txt and config_sequenza_prepare.txt, for inputting the variables or files. In addition, two R scripts, sequenza.R and cntools_gatk.R, should be used in the second Slurm script. You can download these six files on GitHub. You should locate these files in the same directory when using the pipeline.
 
-### 4.1 Preparation step
+### <h2 id="4.1">4.1 Preparation step</h2>
 
 The first step also called the preparation step, is for the whole set of samples since they share the same reference.
 
@@ -146,7 +188,7 @@ You can modify the memory, time, and other parameters, but they are usually enou
 
 Now, you should have a new file, `filename.gc50Base.wig.gz` in the target directory and be able to go to the next step.
 
-### 4.2 Main step
+### <h2 id="4.2">4.2 Main step</h2>
 
 You can do the main step with the newly generated intermedia file. This step contains a Slurm script `sequenza.slurm`, a config file `config_sequenza.txt`, and two R scripts `sequenza.R` and `cntools_sequenza.R`.
 
@@ -195,11 +237,11 @@ tumor_bam_name_small.seqz.gz
 tumor_bam_name_small.seqz.gz.tbi
 ```
 
-## 5. Introduction of Results
+## <h2 id="5">5. Introduction of Results</h2>
 
 The results of the Sequenza CNV Pipeline can be divided into three categories, CNV plots, segment level CNV table, and gene level CNV table. First, let us have a look at the CNV plots.
 
-### 5.1 CNV plots
+### <h2 id="5.1">5.1 CNV plots</h2>
 
 There are eight plot files in Sequenza CNV Pipeline's outputs. Here I will introduce two of them. The first one is `tumor_bam_name_CP_contours.pdf`.
 
@@ -243,7 +285,7 @@ The plot below tells the depth ratio or copy ratio, meaning the copy number of t
 
 The copy ratio presentation is better than copy number since the algorithm sometimes would pick the wrong ploidy.
 
-### 5.2 Segment level CNV table
+### <h2 id="5.2">5.2 Segment level CNV table</h2>
 
 The output table we need to focus on is `tumor_bam_name_segemts.txt`. Here is an example of this table.
 
@@ -255,7 +297,7 @@ Here is the explanation of each column.
 
 As I mentioned in chapter 5.1, Bf (minor allel fraction) and depth.ratio (copy ratio) is supposed to be the two features we need to focus on. Along with the position information (chromosome, start.pos, and end.pos), you can know the segment level CNV of a sample.
 
-### 5.3 Gene level CNV table
+### <h2 id="5.3">5.3 Gene level CNV table</h2>
 
 After running the Sequenza CNV pipeline, there is supposed to be a directory called cntools_result in the output directory, and you can find a file called `tumor_bam_filename.cntools.sequenza.txt`.
 
