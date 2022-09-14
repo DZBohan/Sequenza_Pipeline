@@ -22,7 +22,7 @@ Now, I am going to have a brief introduction to the three steps first.
 
 Here is a flowchart of the preparation step. The wave shape stands for files, and the rectangle stands for tools.
 
-![Sequenza_prepare](https://github.com/DZBohan/Sequenza_Pipeline/blob/main/images/sequenza_prepare.png?raw=true)
+<div align=center><img width =20% src ="https://github.com/DZBohan/Sequenza_Pipeline/blob/main/images/sequenza_prepare.png?raw=true"/></div>
 
 This step aims to convert the reference file into a GC wiggle track file, which is needed in the following step, by using a tool called `sequenza-utils`.
 
