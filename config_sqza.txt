@@ -1,0 +1,11 @@
+BAMDIR="/project/davidwcr_264/Groups/Craig_lab/Users/zhangboh/rw_data/bam/"
+
+FILE="/project/davidwcr_264/Groups/Craig_lab/Users/zhangboh/rw_data/resources/bamIdsUniq1.txt"
+
+refer="/project/davidwcr_264/Groups/Craig_lab/Users/zhangboh/rw_data/resources/GRCh38.primary_assembly.genome.fa"
+
+refer_wig="/project/davidwcr_264/Groups/Craig_lab/Users/zhangboh/rw_data/resources/GRCh38.primary_assembly.gc50Base.wig.gz"
+
+output_path="/project/davidwcr_264/Groups/Craig_lab/Users/zhangboh/rw_data/scriptstestout/sequenza"
+
+geneinfo_path="/project/davidwcr_264/Groups/Craig_lab/Users/zhangboh/rw_data/resources/GRCh38_edit.txt"
